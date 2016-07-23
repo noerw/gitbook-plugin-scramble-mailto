@@ -5,40 +5,47 @@ var scrambleMethods = {
    * Call a js function (./assets/scramble-mailto.js) on click,
    * wich then opens a generated mailto link. [default]
    */
-  'jsFunction': function(match, preAt, postAt, displayName) {
+  'jsFunction': function(match, preAt, postAt, displayText) {
     return [
-      '<a href="#" onclick="openMail(\'', preAt, '\',\'', postAt, '\')">', displayName, '</a>'
+      '<a href="#" onclick="openMail(\'', preAt, '\',\'', postAt, '\')">', encode(displayText), '</a>'
     ].join('');
   },
 
   /**
    * Encode the email address with several randomly mixed encodings.
-   * Probably not as safe as 'jsFunction'
+   * Probably not as safe as 'jsFunction', but doesnt require client JS
    */
-  'htmlEncode': function(match, preAt, postAt, displayName) {
+  'htmlEncode': function(match, preAt, postAt, displayText) {
     return match
-      .replace(preAt, encode(preAt))
+      .replace(preAt, encode(preAt, true))
       .replace('@', '%40')
-      .replace(postAt, encode(postAt));
-
-    function encode(originalString) {
-      var i, chr, encodingOpt, result = '';
-      for (i = 0; i < originalString.length; ++i) {
-        chr = Number(originalString.charCodeAt(i));
-        encodingOpt = Math.random() * 5;
-        // encode as URI component if not first character, and not ? & or =
-        if (encodingOpt > 3 && [63, 61, 38].indexOf(chr) === -1 && i !== 0)
-          result += '%' + chr.toString(16)
-        else if (encodingOpt > 2)
-          result += '&#x' + chr.toString(16) + ';';
-        else if (encodingOpt > 1)
-          result += '&#' + chr.toString() + ';';
-        else
-          result += originalString[i];
-      }
-      return result;
-    }
+      .replace(postAt, encode(postAt, true))
+      .replace(displayText, encode(displayText));
   }
+};
+
+/**
+ * Encode a string with randomly mixed encodings (html entity, URI, plaintext).
+ * @param {string} originalString  The string to encode
+ * @param {boolean} useURIEncode   Wether to use URI encoding. defaults to false
+ * @returns {string} The encoded string
+ */
+function encode(originalString, useURIEncode) {
+  var i, chr, encodingOpt, result = '';
+  for (i = 0; i < originalString.length; ++i) {
+    chr = Number(originalString.charCodeAt(i));
+    encodingOpt = Math.random() * 5;
+    // encode as URI component if not first character, and not ? & or =
+    if (useURIEncode && encodingOpt > 3 && [63, 61, 38].indexOf(chr) === -1 && i !== 0)
+      result += '%' + chr.toString(16)
+    else if (encodingOpt > 2)
+      result += '&#x' + chr.toString(16) + ';';
+    else if (encodingOpt > 1)
+      result += '&#' + chr.toString() + ';';
+    else
+      result += originalString[i];
+  }
+  return result;
 }
 
 module.exports = {
