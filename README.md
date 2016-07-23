@@ -11,6 +11,8 @@ The email address may be obscured according to 2 methods, selectable in your `bo
 
 Currently the filter applies to any `<a>`-tag with a `mailto:` in the href.
 
+If you write the email not only in the `href` but also in the rendered text of an anchor, a safe replacement is not guaranteed.
+
 ## usage
 
 1. add the plugin to your `book.json`, and optionally configure it. example:

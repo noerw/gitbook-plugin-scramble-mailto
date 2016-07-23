@@ -66,7 +66,7 @@ module.exports = {
 
       for (var i = 0; i < page.sections.length; ++i) {
         page.sections[i].content = page.sections[i].content
-          .replace(/<a.*href="mailto:(\w+)@([^\"]+)".*>(.*)<\/a>/gi, scrambleMethods[cfg.scrambleMethod]);
+          .replace(/<a[^>]*?href="mailto:([^\"]+)@([^\"]+)"[^>]*>([^<]*)<\/a>/gi, scrambleMethods[cfg.scrambleMethod]);
       }
 
       return page;
