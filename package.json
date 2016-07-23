@@ -1,0 +1,31 @@
+{
+  "name": "gitbook-plugin-scramble-mailto",
+  "version": "0.1.0",
+  "engines": {
+    "gitbook": ">=3.1.0"
+  },
+  "gitbook": {
+    "properties": {
+      "scrambleMethod": {
+        "type": "string",
+        "default": "jsFunction",
+        "description": "Method to obscure the mailto link. Valid values are [jsFunction, htmlEncode]"
+      }
+    }
+  },
+  "description": "js-encode mailto links, so they are harder to scrape by spambots",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "noerw",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/noerw/gitbook-plugin-scramble-mailto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/noerw/gitbook-plugin-scramble-mailto/issues"
+  },
+  "homepage": "https://github.com/noerw/gitbook-plugin-scramble-mailto#readme",
+  "license": "LGPL-3.0"
+}
